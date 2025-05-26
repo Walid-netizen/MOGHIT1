@@ -1,0 +1,656 @@
+/* ===== ROOT VARIABLES & BASE STYLES ===== */
+:root {
+    --main-color: #a259ff; /* purple */
+    --accent-color: #fcd34d; /* yellow */
+    --bg-color: #2a0050; /* Light purple for fallback and transparent elements */
+    --text-color: #f1f1f1;
+    --subtext-color: #ccc; /* Slightly lighter subtext for better contrast on lighter background */
+    --font-main: 'Cairo', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --glow-strength: 0 0 25px; /* Base glow effect */
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-main);
+    background-color: var(--bg-color); /* Fallback background color */
+    color: var(--text-color);
+    direction: rtl; /* Right-to-Left for Arabic */
+    overflow-x: hidden; /* Prevent horizontal scroll */
+    height: 100%;
+    position: relative;
+    z-index: 1; /* Ensure content is above particles.js */
+    /* cursor: none; */ /* Uncomment this if you implement a custom JS cursor */
+    scroll-behavior: smooth; /* Smooth scroll for anchor links */
+}
+
+/* ===== PARTICLE BACKGROUND ===== */
+#particles-js {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    z-index: 0; /* Ensures particles are in the background */
+    /* Animated gradient for a light purple, dynamic background */
+    background: linear-gradient(135deg, #4a007c 0%, #6f00b0 100%); /* Lighter purple shades */
+    background-size: 400% 400%; /* Larger size for smooth animation */
+    animation: gradientShift 15s ease infinite; /* Animation for gradient movement */
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Subtle static pattern on top of the gradient for added texture */
+#particles-js::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: repeating-linear-gradient(
+        45deg,
+        rgba(255, 255, 255, 0.03) 0, /* Increased opacity for visibility on lighter background */
+        rgba(255, 255, 255, 0.03) 2px,
+        transparent 2px,
+        transparent 4px
+    );
+    opacity: 0.6; /* Increased opacity */
+    z-index: 1; /* Above the gradient, below particles */
+}
+
+/* ===== GLOBAL CONTAINER ===== */
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: auto;
+    position: relative;
+    z-index: 1; /* Ensure content within container is visible */
+}
+
+/* ===== NAVBAR ===== */
+.navbar {
+    background: rgba(42, 0, 80, 0.3); /* Lighter transparent purple for navbar */
+    padding: 1rem 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    z-index: 10; /* High z-index to always be on top */
+    backdrop-filter: blur(5px); /* Modern frosted glass effect */
+    border-bottom: 1px solid rgba(162, 89, 255, 0.2); /* Soft separator */
+}
+
+.logo {
+    font-size: 2rem;
+    color: var(--main-color);
+    text-shadow: var(--glow-strength) var(--main-color);
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links a {
+    color: var(--accent-color); /* اللون الأصفر */
+    text-decoration: none;
+    font-weight: bold; /* تم التعديل: زيادة سمك الخط */
+    transition: color 0.3s, text-shadow 0.3s, transform 0.3s; /* إضافة transform للـ transition */
+    position: relative; /* لتأثير الخط السفلي */
+    text-shadow: 0 0 8px rgba(252, 211, 77, 0.7); /* إضافة ظل خفيف للون الأصفر */
+    transform: translateY(0); /* للحفاظ على الوضع الأصلي */
+}
+
+.nav-links a:hover {
+    color: var(--main-color); /* اللون البنفسجي عند الـ hover */
+    text-shadow: var(--glow-strength) var(--main-color); /* ظل قوي للون البنفسجي */
+    transform: translateY(-2px); /* حركة خفيفة للأعلى عند الـ hover */
+}
+
+/* Underline effect on hover */
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    display: block;
+    margin-top: 5px;
+    right: 0; /* For RTL support */
+    background: var(--accent-color);
+    transition: width 0.3s ease;
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+    left: 0; /* For RTL support */
+    background: var(--accent-color);
+}
+
+/* ===== HERO SECTION ===== */
+.hero {
+    min-height: calc(100vh - 6rem); /* Adjust for navbar height */
+    display: flex;
+    align-items: center;
+    padding: 3rem 0;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    align-items: center;
+    gap: 3rem;
+}
+
+.hero-image {
+    position: relative;
+    padding: 10px; /* Space for glowing border */
+    border-radius: 1rem;
+    background: linear-gradient(45deg, var(--main-color), var(--accent-color)); /* Gradient border effect */
+    animation: borderGlow 4s infinite alternate; /* Animates the border glow */
+}
+
+.hero-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 1rem;
+    box-shadow: 0 0 30px rgba(162, 89, 255, 0.6); /* Initial subtle glow */
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.hero-image img:hover {
+    transform: scale(1.03);
+    box-shadow: 0 0 60px rgba(162, 89, 255, 0.8), 0 0 30px rgba(252, 211, 77, 0.8); /* Dual color glow on hover */
+}
+
+@keyframes borderGlow {
+    0% { border-color: var(--main-color); }
+    50% { border-color: var(--accent-color); }
+    100% { border-color: var(--main-color); }
+}
+
+.hero-text h2 {
+    font-size: 1.8rem;
+    color: var(--text-color);
+    margin-bottom: 0.5rem;
+}
+
+.hero-text h1 {
+    font-size: 3.8rem;
+    margin: 0.5rem 0 1.5rem;
+    color: var(--text-color);
+}
+
+.highlight {
+    color: white;
+}
+
+.hero-text p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: var(--subtext-color);
+    max-width: 550px;
+}
+
+.stats {
+    display: flex;
+    gap: 2.5rem;
+    margin: 2.5rem 0;
+    flex-wrap: wrap;
+}
+
+.stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.05); /* Slight transparent background */
+    padding: 1rem 1.5rem;
+    border-radius: 0.75rem;
+    border: 1px solid rgba(162, 89, 255, 0.3);
+    box-shadow: 0 0 15px rgba(162, 89, 255, 0.3);
+    transition: all 0.3s ease;
+}
+
+.stat:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 0 25px var(--main-color), 0 0 15px var(--accent-color);
+}
+
+.stat strong {
+    font-size: 2.2rem;
+    color: var(--accent-color);
+    margin-bottom: 0.2rem;
+    text-shadow: var(--glow-strength) var(--accent-color);
+}
+
+.stat span {
+    font-size: 0.95rem;
+    color: var(--text-color);
+}
+
+.buttons {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 0.9rem 2.2rem;
+    border: none;
+    border-radius: 0.6rem;
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-primary {
+    background-color: var(--main-color);
+    color: #fff;
+    box-shadow: 0 0 25px var(--main-color);
+}
+
+.btn-primary:hover {
+    transform: translateY(-5px) scale(1.05);
+    background-color: var(--accent-color);
+    box-shadow: 0 0 35px var(--accent-color), 0 0 15px var(--main-color);
+}
+
+.btn-secondary {
+    background-color: transparent;
+    border: 2px solid var(--main-color);
+    color: var(--main-color);
+}
+
+.btn-secondary:hover {
+    transform: translateY(-5px) scale(1.05);
+    background-color: var(--main-color);
+    color: #fff;
+    box-shadow: 0 0 35px var(--main-color);
+}
+
+/* ===== SOCIAL ICONS (Font Awesome) ===== */
+.social-icons {
+    margin-top: 2.5rem;
+    display: flex;
+    gap: 1.2rem;
+    flex-wrap: wrap;
+}
+
+.social-icons a {
+    display: inline-block;
+    line-height: 1;
+}
+
+.social-icons a i { /* Target Font Awesome icons directly */
+    font-size: 38px; /* Set icon size */
+    color: var(--text-color); /* Initial color */
+    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.3));
+    transition: transform 0.3s ease, color 0.3s ease, filter 0.3s ease;
+    animation: float 4s ease-in-out infinite alternate; /* Slower, staggered float */
+}
+
+/* Stagger animation delays for each icon */
+.social-icons a:nth-child(2) i { animation-delay: 0.5s; }
+.social-icons a:nth-child(3) i { animation-delay: 1s; }
+.social-icons a:nth-child(4) i { animation-delay: 1.5s; }
+
+.social-icons a:hover i {
+    transform: scale(1.3) translateY(-3px);
+    color: var(--accent-color); /* Change color on hover */
+    filter: drop-shadow(0 0 15px var(--accent-color)) drop-shadow(0 0 8px var(--main-color));
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+/* ===== SECTIONS ===== */
+.section {
+    padding: 8rem 0;
+    position: relative;
+    z-index: 1;
+}
+
+/* Parallax effect on the section */
+#works {
+    background-attachment: fixed; /* Parallax effect */
+    background-size: cover;
+    background-position: center;
+    /* تقدر تزيد background-image هنا إذا بغيتي صورة مختلفة للخلفية */
+    /* background-image: url('assets/some-subtle-pattern.png'); */
+}
+
+
+.section-title {
+    font-size: 3rem;
+    text-align: center;
+    margin-bottom: 4rem;
+    color: var(--main-color);
+    text-shadow: var(--glow-strength) var(--main-color), var(--glow-strength) var(--accent-color);
+    position: relative;
+    padding-bottom: 15px;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 0;
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(to right, var(--main-color), var(--accent-color));
+    border-radius: 2px;
+}
+
+/* ===== VIDEO GALLERY - INSTAGRAM REELS STYLE ===== */
+.video-gallery {
+    display: grid;
+    /* تحديد عرض كل عمود ليكون أضيق، مما يسمح بمزيد من الفيديوهات في الصف الواحد على الشاشات الكبيرة */
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2.5rem;
+    justify-content: center; /* لمركزة الكاردات في الصف */
+}
+
+.video-item {
+    background: #2a0050; /* نفس لون خلفية الـ cards */
+    border-radius: 0.85rem;
+    box-shadow: 0 0 15px rgba(162, 89, 255, 0.4), inset 0 0 10px rgba(162, 89, 255, 0.2);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    overflow: hidden; /* باش الـ border-radius يطبق على كلشي */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative; /* لتأثير الإطار المتوهج */
+    z-index: 1; /* باش الإطار يكون فوق الخلفية */
+    aspect-ratio: 9 / 16; /* نسبة العرض للارتفاع 9:16 (الريلز) */
+    width: 100%; /* تأكد من أن العرض يملأ الخلية في الـ grid */
+    max-width: 350px; /* تحديد أقصى عرض للبطاقة لتبقى عمودية */
+    margin: auto; /* لمركزة البطاقة داخل الخلية إذا كان العرض أصغر من max-width */
+}
+
+/* إطار متوهج حول الفيديو */
+.video-item::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, var(--main-color), var(--accent-color), var(--main-color));
+    background-size: 300% 300%;
+    border-radius: 0.95rem;
+    z-index: -1; /* خلف المحتوى */
+    filter: blur(5px);
+    opacity: 0; /* مخفي في البداية */
+    transition: opacity 0.4s ease, background-position 0.8s ease;
+    animation: glowingBorder 10s linear infinite; /* حركة الإطار دائما */
+    animation-play-state: paused; /* تتوقف عند عدم وجود hover */
+}
+
+.video-item:hover::before {
+    opacity: 1; /* يظهر الإطار عند الـ hover */
+    animation-play-state: running; /* تشغيل الأنيمايشن عند الـ hover */
+}
+
+.video-item:hover {
+    transform: translateY(-10px) scale(1.03); /* حركة للأعلى وتكبير أكثر */
+    box-shadow: 0 0 60px var(--main-color), 0 0 30px var(--accent-color); /* إضاءة قوية جداً */
+}
+
+/* Wrapper for video */
+.video-wrapper {
+    position: relative;
+    width: 100%;
+    padding-bottom: 177.77%; /* 9:16 aspect ratio (16 / 9 * 100) */
+    height: 0; /* Important for padding-bottom aspect ratio trick */
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
+    border-radius: 0.85rem; /* Apply border-radius to match video-item */
+    overflow: hidden; /* Ensure video stays within rounded corners */
+}
+
+/* Style for the iframe */
+.video-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none; /* Remove default iframe border */
+    border-radius: 0.85rem; /* Match parent wrapper */
+    object-fit: cover; /* Ensures the video content fits well */
+    transition: transform 0.3s ease; /* Smooth scaling if needed */
+    /* Remove play-overlay specific styles, they are no longer needed */
+}
+
+/* This section was related to <video> and is now removed as we are using <iframe>
+.video-wrapper video::-webkit-media-controls { }
+.video-wrapper video::-webkit-media-controls-panel { }
+.video-wrapper video::-webkit-media-controls-play-button { }
+.video-wrapper video::-webkit-media-controls-current-time-display,
+.video-wrapper video::-webkit-media-controls-time-remaining-display { }
+.video-wrapper video::-webkit-media-controls-timeline { }
+.video-wrapper video::-webkit-media-controls-volume-slider { }
+*/
+
+/* This section was related to play-overlay and is now removed as we are using <iframe>
+.play-overlay { }
+.play-overlay .fas.fa-play { }
+.play-overlay:hover .fas.fa-play { }
+@keyframes pulseIcon { }
+*/
+
+.video-description {
+    padding: 1.2rem 1.5rem;
+    color: var(--text-color);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    text-align: right; /* للغة العربية */
+    flex-grow: 1; /* باش ياخد المساحة المتاحة */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; /* باش النص يبدا من التحت */
+}
+
+.video-description p {
+    margin: 0; /* إزالة الـ margin الافتراضي للفقرات */
+    color: var(--subtext-color); /* لون النص العادي */
+}
+
+.video-description strong {
+    color: var(--accent-color); /* الكلمات المهمة باللون الأصفر */
+    font-weight: bold;
+    text-shadow: 0 0 5px rgba(252, 211, 77, 0.5); /* ظل خفيف للكلمات الصفراء */
+}
+
+.video-actions {
+    text-align: center;
+    padding: 0 1.5rem 1.5rem;
+}
+
+.video-actions .btn-small {
+    padding: 0.6rem 1.5rem;
+    font-size: 0.9rem;
+    margin-top: 1rem;
+    width: 100%; /* Make button full width of description area */
+}
+
+
+/* ===== PRICING CARDS ===== */
+.price-cards {
+    display: grid;
+    gap: 2.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    margin-top: 3rem;
+}
+
+.card {
+    background: #2a0050; /* Adjusted background to match new --bg-color */
+    padding: 2.5rem;
+    border-radius: 1.2rem;
+    border: 1px solid rgba(162, 89, 255, 0.4);
+    box-shadow: 0 0 20px rgba(162, 89, 255, 0.3);
+    transition: transform 0.4s ease, box-shadow 0.4s ease, background 0.4s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 0 40px var(--main-color), 0 0 20px var(--accent-color);
+    background: #3a0060; /* Slightly lighter on hover */
+}
+
+.card h3 {
+    color: var(--accent-color);
+    font-size: 1.7rem;
+    margin-bottom: 1rem;
+    text-shadow: var(--glow-strength) var(--accent-color);
+}
+
+.card p {
+    color: var(--subtext-color);
+    font-size: 1.05rem;
+    line-height: 1.6;
+    flex-grow: 1;
+    margin-bottom: 1.5rem;
+}
+
+.card .price {
+    color: white; /* تم التعديل إلى اللون الأبيض */
+    font-weight: bold;
+    font-size: 1.5rem;
+    text-shadow: var(--glow-strength) var(--main-color);
+    text-align: center;
+    padding-top: 1rem;
+    border-top: 1px dashed rgba(255, 255, 255, 0.1);
+}
+
+/* ===== CONTACT FORM ===== */
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 650px;
+    margin: auto;
+    position: relative;
+    padding: 3rem;
+    border-radius: 1rem;
+    background: rgba(42, 0, 80, 0.7); /* Adjusted to a lighter, semi-transparent purple */
+    box-shadow: 0 0 30px rgba(162, 89, 255, 0.4);
+    overflow: hidden;
+}
+
+/* Animated Border for Contact Form */
+.contact-form::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    background: linear-gradient(45deg, var(--main-color), var(--accent-color), var(--main-color));
+    background-size: 400%;
+    border-radius: 1.2rem;
+    z-index: -1;
+    animation: glowingBorder 10s linear infinite;
+    filter: blur(8px);
+}
+
+@keyframes glowingBorder {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.contact-form input,
+.contact-form textarea {
+    padding: 1.2rem;
+    border-radius: 0.6rem;
+    border: none;
+    background: #4a007c; /* A slightly darker shade of the new background for contrast */
+    color: white;
+    font-size: 1.05rem;
+    box-shadow: inset 0 0 8px rgba(255, 255, 255, 0.15);
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+    background: #5a008c; /* Lighter on focus */
+    box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.2), 0 0 10px var(--main-color);
+}
+
+.contact-form textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.contact-form button {
+    align-self: center;
+    margin-top: 1rem;
+    width: 50%;
+    max-width: 250px;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 992px) {
+    .hero-text h1 {
+        font-size: 3rem;
+    }
+    .grid {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    .hero-image {
+        max-width: 350px;
+        margin: auto;
+    }
+    .stats, .buttons, .social-icons {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+    }
+    .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1rem;
+    }
+    .hero-text h1 {
+        font-size: 2.5rem;
+    }
+    .section-title {
+        font-size: 2.2rem;
+    }
+    .video-gallery {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* تصغير العرض على الشاشات الصغيرة */
+    }
+    .price-cards {
+        grid-template-columns: 1fr;
+    }
+    .contact-form {
+        padding: 2rem;
+    }
+}
